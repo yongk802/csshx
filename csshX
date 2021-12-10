@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl5.18
 
 #==============================================================================#
 # csshX -- Cluster SSH tool for Mac OS X Terminal.app                          #

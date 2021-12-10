@@ -25,6 +25,24 @@ If that does not work, you can try the FAQ:
 
     http://code.google.com/p/csshx/wiki/FAQ
 
+Example Usage:
+
+```
+# copy this binary to your bin folder to make it easier to use:
+cp ./csshX /usr/local/bin
+
+# create a file which has one host on each line, e.g.:
+cat <<EOF > hosts
+host1.servicenow.com
+host2.servicenow.com
+host3.servicenow.com
+EOF
+
+# use csshX with an alternative ssh command if desired and point to the hosts file you created:
+csshX --hosts hosts --ssh bssh
+
+#A "master" terminal will pop up (it's red for me) and anything typed into it will be replicated across all terminals.
+```
 
 UPDATES:
 
