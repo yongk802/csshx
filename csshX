@@ -1,4 +1,4 @@
-#!/usr/bin/perl5.18
+#!/usr/bin/perl5.30
 
 #==============================================================================#
 # csshX -- Cluster SSH tool for Mac OS X Terminal.app                          #
@@ -22,7 +22,8 @@ package CsshX::Config;
 
 use Getopt::Long;
 use Socket;
-use POSIX qw(uname);
+#use POSIX qw(uname);
+use File::Temp qw/ :POSIX /;
 
 # All possible config keys
 my @config_keys = qw(
@@ -77,8 +78,10 @@ sub new {
         clusters                   => {}
     }, ref($pack) || $pack;
 
-    ($obj->{osver} = (uname())[2]) =~ s/^(\d+)(\.\d+).*/"10.".($1-4)."$2"/e;
-    
+    # ($obj->{osver} = (uname())[2]) =~ s/^(\d+)(\.\d+).*/"10.".($1-4)."$2"/e;
+    ($obj->{osver} = `uname -r`) =~ s/^(\d+)(\.\d+).*/"10.".($1-4)."$2"/e;
+    chomp($obj->{osver});
+
     $obj->load_clusters("/etc/clusters");
     $obj->load_csshrc($_) foreach ("/etc/csshrc", "$ENV{HOME}/.csshrc");
 
@@ -1190,7 +1193,8 @@ sub parse_user_host_port {
 package CsshX::Launcher;
 
 use base    qw(CsshX::Socket::Selectable);
-use POSIX   qw(tmpnam);
+# use POSIX   qw(tmpnam);
+use File::Temp qw/ :POSIX /;
 use FindBin qw($Bin $Script);;
 
 sub new {
